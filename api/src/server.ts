@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import cors from "cors";
 import express, { type Express } from "express";
 import helmet from "helmet";
@@ -7,30 +8,38 @@ import errorHandler from "@/common/middleware/errorHandler";
 import rateLimiter from "@/common/middleware/rateLimiter";
 import requestLogger from "@/common/middleware/requestLogger";
 import { env } from "@/common/utils/envConfig";
+import AppDataSource from "./common/persistence/appDataSource";
+import { UserEntity } from "./common/persistence/entities/user";
 
 const logger = pino({ name: "server start" });
-const app: Express = express();
+const initApp = async () => {
+  const app: Express = express();
 
-// Set the application to trust the reverse proxy
-app.set("trust proxy", true);
+  // Set the application to trust the reverse proxy
+  app.set("trust proxy", true);
 
-// Middlewares
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cors({ origin: env.CORS_ORIGIN, credentials: true }));
-app.use(helmet());
-app.use(rateLimiter);
+  // Middlewares
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
+  app.use(cors({ origin: env.CORS_ORIGIN, credentials: true }));
+  app.use(helmet());
+  app.use(rateLimiter);
 
-// Request logging
-app.use(requestLogger);
+  // Request logging
+  app.use(requestLogger);
 
-// Routes
-// TODO
+  // Routes
+  // TODO
 
-// Swagger UI
-app.use(openAPIRouter);
+  // Swagger UI
+  app.use(openAPIRouter);
 
-// Error handlers
-app.use(errorHandler());
+  // Error handlers
+  app.use(errorHandler());
 
-export { app, logger };
+  // Datasource
+  await AppDataSource.initialize();
+
+  return app;
+};
+export { initApp, logger };
