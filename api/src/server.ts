@@ -9,7 +9,7 @@ import rateLimiter from "@/common/middleware/rateLimiter";
 import requestLogger from "@/common/middleware/requestLogger";
 import { env } from "@/common/utils/envConfig";
 import AppDataSource from "./common/persistence/appDataSource";
-import { UserEntity } from "./common/persistence/entities/user";
+import { authRouter } from "./api/auth/controller/authRouter";
 
 const logger = pino({ name: "server start" });
 const initApp = async () => {
@@ -29,7 +29,7 @@ const initApp = async () => {
   app.use(requestLogger);
 
   // Routes
-  // TODO
+  app.use("/auth", authRouter);
 
   // Swagger UI
   app.use(openAPIRouter);
