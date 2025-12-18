@@ -10,6 +10,7 @@ import requestLogger from "@/common/middleware/requestLogger";
 import { env } from "@/common/utils/envConfig";
 import AppDataSource from "./common/persistence/appDataSource";
 import { authRouter } from "./api/auth/controller/authRouter";
+import { authMiddleware } from "./api/auth/controller/authMiddleware";
 
 const logger = pino({ name: "server start" });
 const initApp = async () => {
@@ -28,11 +29,16 @@ const initApp = async () => {
   // Request logging
   app.use(requestLogger);
 
-  // Routes
+  // Free Routes
   app.use("/auth", authRouter);
 
   // Swagger UI
   app.use(openAPIRouter);
+
+  // Auth middleware
+  app.use(authMiddleware);
+
+  // Protected Routes
 
   // Error handlers
   app.use(errorHandler());
