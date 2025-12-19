@@ -1,8 +1,9 @@
 import { RequestHandler } from "express";
 import loginService from "../service/loginService";
-import { LoginUserDto } from "../models/loginDto";
+import { LoginUserDto, RegisterUserDto } from "../models/loginDto";
 import { ServiceResponse } from "@/common/models/serviceResponse";
 import { StatusCodes } from "http-status-codes";
+import registerService from "../service/registerService";
 
 class AuthController {
   login: RequestHandler = async (req, res) => {
@@ -23,6 +24,12 @@ class AuthController {
       });
     }
 
+    res.status(serviceResponse.statusCode).send(serviceResponse);
+  };
+
+  register: RequestHandler = async (req, res) => {
+    const body: RegisterUserDto = req.body;
+    const serviceResponse = await registerService.registerUser(body);
     res.status(serviceResponse.statusCode).send(serviceResponse);
   };
 }

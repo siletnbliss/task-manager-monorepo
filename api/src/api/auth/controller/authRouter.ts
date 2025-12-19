@@ -1,23 +1,25 @@
 import { OpenAPIRegistry } from "@asteasolutions/zod-to-openapi";
 import { Router } from "express";
-import { LoginUserResponse, LoginUserSchema } from "../models/loginDto";
+import {
+  LoginUserResponse,
+  LoginUserSchema,
+  RegisterUserResponse,
+} from "../models/loginDto";
 import {
   createApiBody,
   createApiResponses,
 } from "@/api-docs/openAPIResponseBuilders";
 import authController from "./authController";
-
+import { validateRequest } from "@/common/utils/httpHandlers";
+import z from "zod";
 export const authRegistry = new OpenAPIRegistry();
 export const authRouter = Router();
-
-authRegistry.register("LoginDto", LoginUserSchema);
 
 authRegistry.registerPath({
   method: "post",
   path: "/auth/login",
   tags: ["Auth"],
   description: "Generate JWT token with user credentials",
-  // requestBody: createApiBody(LoginUserSchema, "User credentials"),
   request: {
     body: createApiBody(LoginUserSchema.shape.body, "User credentials"),
   },
@@ -27,7 +29,36 @@ authRegistry.registerPath({
       statusCode: 200,
       schema: LoginUserResponse,
     },
-  ]), // { ["200"]: createApiResponse(LoginUserResponse, "Verified user") },
+    { description: "Invalid credentials", statusCode: 401, schema: z.null() },
+  ]),
 });
 
-authRouter.post("/login", authController.login);
+authRouter.post(
+  "/login",
+  validateRequest(LoginUserSchema),
+  authController.login
+);
+
+authRegistry.registerPath({
+  method: "post",
+  path: "/auth/register",
+  tags: ["Auth"],
+  description: "Register new user",
+  request: {
+    body: createApiBody(LoginUserSchema.shape.body, "User credentials"),
+  },
+  responses: createApiResponses([
+    {
+      description: "Successful register",
+      statusCode: 200,
+      schema: RegisterUserResponse,
+    },
+    { description: "Username in use", statusCode: 403, schema: z.null() },
+  ]),
+});
+
+authRouter.post(
+  "/register",
+  validateRequest(LoginUserSchema),
+  authController.register
+);
