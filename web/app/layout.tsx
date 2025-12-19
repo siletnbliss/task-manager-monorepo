@@ -3,6 +3,8 @@ import '@mantine/notifications/styles.css';
 
 import React from 'react';
 import { Box, ColorSchemeScript, Container, Group, mantineHtmlProps } from '@mantine/core';
+import { auth } from '@/auth';
+import { SignOutButton } from '@/modules/auth/components/SignOut';
 import { ThemeToggle } from '@/modules/common/components/theme-switch/ThemeToggle';
 import { Providers } from './providers';
 
@@ -12,7 +14,8 @@ export const metadata = {
     'A powerful task management application to organize and prioritize your work seamlessly.',
 };
 
-export default function RootLayout({ children }: { children: any }) {
+export default async function RootLayout({ children }: { children: any }) {
+  const session = await auth();
   return (
     <html lang="en" {...mantineHtmlProps}>
       <head>
@@ -39,6 +42,7 @@ export default function RootLayout({ children }: { children: any }) {
           >
             <Group justify="end" pb={'md'}>
               <ThemeToggle />
+              {!!session?.user && <SignOutButton />}
             </Group>
             <Box
               flex={1}
