@@ -28,8 +28,6 @@ const envSchema = z.object({
   // --- JWT Configuration ---
   ACCESS_TOKEN_SECRET: z.string().min(1),
   ACCESS_TOKEN_EXPIRY: z.string().min(1).default("15m"),
-  REFRESH_TOKEN_SECRET: z.string().min(1),
-  REFRESH_TOKEN_EXPIRY: z.string().min(1).default("7d"),
 });
 
 const parsedEnv = envSchema.safeParse(process.env);
