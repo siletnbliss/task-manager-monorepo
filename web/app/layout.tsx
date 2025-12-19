@@ -1,16 +1,10 @@
 import '@mantine/core/styles.css';
+import '@mantine/notifications/styles.css';
 
 import React from 'react';
-import {
-  Box,
-  ColorSchemeScript,
-  Container,
-  Group,
-  mantineHtmlProps,
-  MantineProvider,
-} from '@mantine/core';
+import { Box, ColorSchemeScript, Container, Group, mantineHtmlProps } from '@mantine/core';
 import { ThemeToggle } from '@/modules/common/components/theme-switch/ThemeToggle';
-import { theme } from '../theme';
+import { Providers } from './providers';
 
 export const metadata = {
   title: 'TaskMan - Manage Your Tasks Efficiently',
@@ -30,7 +24,7 @@ export default function RootLayout({ children }: { children: any }) {
         />
       </head>
       <body>
-        <MantineProvider theme={theme}>
+        <Providers>
           <Container
             size="xl"
             px="md"
@@ -58,7 +52,7 @@ export default function RootLayout({ children }: { children: any }) {
               {children}
             </Box>
           </Container>
-        </MantineProvider>
+        </Providers>{' '}
       </body>
     </html>
   );
