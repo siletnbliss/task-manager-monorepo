@@ -1,6 +1,7 @@
 import { DataSource } from "typeorm";
 import { env } from "../utils/envConfig";
 import { UserEntity } from "./entities/user";
+import { TaskEntity } from "./entities/task";
 
 const AppDataSource = new DataSource({
   type: "postgres",
@@ -9,7 +10,7 @@ const AppDataSource = new DataSource({
   username: env.POSTGRES_USER,
   password: env.POSTGRES_PASSWORD,
   database: env.POSTGRES_DB,
-  entities: [UserEntity],
+  entities: [UserEntity, TaskEntity],
   subscribers: [],
   migrations: [],
 });
