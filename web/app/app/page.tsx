@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import { IconPlus } from '@tabler/icons-react';
 import { Box, Button, Container, Group, Title } from '@mantine/core';
-import { TasksProvider } from '@/modules/tasks/context/TasksProvider';
+import { PriorityInput } from '@/modules/tasks/components/input/PriorityInput';
+import { TasksProvider, useTasksContext } from '@/modules/tasks/context/TasksProvider';
 import { Task } from '@/modules/tasks/model/task';
 import { CreateTaskDrawer } from '@/modules/tasks/widgets/drawer/CreateTaskDrawer';
 import { DeleteTaskModal } from '@/modules/tasks/widgets/drawer/DeleteTaskModal';
@@ -22,6 +23,7 @@ export default function DashboardPage() {
 }
 
 function PageInner() {
+  const { setPriority } = useTasksContext();
   const {
     open: openCreate,
     opened: openedCreate,
@@ -59,6 +61,7 @@ function PageInner() {
     <Container size="xl">
       <Group justify="space-between" mb="xl">
         <Title order={2}>Project Overview</Title>
+        <PriorityInput putAll onChange={setPriority} />
         <Button leftSection={<IconPlus size={18} />} onClick={openCreate}>
           New Task
         </Button>

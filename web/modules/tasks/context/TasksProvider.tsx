@@ -1,12 +1,13 @@
 'use client';
 
-import { createContext, ReactNode, useContext, useMemo } from 'react';
+import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
 import { useApiQuery } from '@/modules/common/hooks/useApiQuery';
 import { BaseApiResponse } from '@/modules/common/model/api';
 import { Task, TaskState } from '../model/task';
 
 interface TasksContextType {
   tasksByState: Record<TaskState, Task[]>;
+  setPriority: (priority: string) => void;
   refetch: () => void;
   isPending: boolean;
   isError: boolean;
@@ -26,6 +27,8 @@ export function TasksProvider({ children }: { children: ReactNode }) {
     url: '/tasks',
   });
 
+  const [priority, setPriority] = useState('all');
+
   const tasksByState = useMemo(() => {
     const grouped: Record<TaskState, Task[]> = {
       pending: [],
@@ -37,6 +40,10 @@ export function TasksProvider({ children }: { children: ReactNode }) {
     }
 
     tasks.responseObject.forEach((task) => {
+      const priorityMatch = priority === 'all' || task.priority === priority;
+      if (!priorityMatch) {
+        return;
+      }
       if (grouped[task.status]) {
         grouped[task.status].push(task);
       } else {
@@ -45,7 +52,7 @@ export function TasksProvider({ children }: { children: ReactNode }) {
     });
 
     return grouped;
-  }, [tasks]);
+  }, [tasks, priority]);
 
   const value = {
     tasksByState,
@@ -53,6 +60,7 @@ export function TasksProvider({ children }: { children: ReactNode }) {
     isPending,
     isError,
     error,
+    setPriority,
   };
 
   return <TasksContext.Provider value={value}>{children}</TasksContext.Provider>;
