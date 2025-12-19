@@ -15,7 +15,7 @@ import z from "zod";
 import taskController from "./taskController";
 
 export const taskRegistry = new OpenAPIRegistry();
-export const taskRouter = Router();
+export const taskRouter: Router = Router();
 
 taskRegistry.registerComponent("securitySchemes", "bearerAuth", {
   type: "http",

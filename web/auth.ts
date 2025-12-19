@@ -1,7 +1,6 @@
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
-import { axiosInstance } from './modules/common/lib/axios';
 import { BaseApiResponse } from './modules/common/model/api';
 
 type LoginApiResponse = BaseApiResponse<{
@@ -23,10 +22,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             return null;
           }
 
-          const { data } = await axiosInstance.post<LoginApiResponse>('/auth/login', {
-            username: credentials.username,
-            password: credentials.password,
-          });
+          const { data } = await axios.post<LoginApiResponse>(
+            '/auth/login',
+            {
+              username: credentials.username,
+              password: credentials.password,
+            },
+            { baseURL: process.env.API_URL_INTERNAL || process.env.NEXT_PUBLIC_API_BASE_URL }
+          );
 
           if (data.success && data.responseObject?.access_token) {
             return {
@@ -38,6 +41,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
           return null;
         } catch (error) {
+          console.error(
+            'Error during authorization:',
+            (error as AxiosError | undefined)?.response?.data
+          );
           return null;
         }
       },
@@ -58,7 +65,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       const isLoggedIn = !!auth?.user;
       const isOnDashboard = nextUrl.pathname.startsWith('/app');
       const isOnLoginPage = nextUrl.pathname.startsWith('/');
-      console.log({ isLoggedIn, isOnDashboard, isOnLoginPage });
       if (isOnDashboard) {
         if (isLoggedIn) return true;
         return false; // Redirect unauthenticated users to login page

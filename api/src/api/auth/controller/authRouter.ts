@@ -13,7 +13,7 @@ import authController from "./authController";
 import { validateRequest } from "@/common/utils/httpHandlers";
 import z from "zod";
 export const authRegistry = new OpenAPIRegistry();
-export const authRouter = Router();
+export const authRouter: Router = Router();
 
 authRegistry.registerPath({
   method: "post",
