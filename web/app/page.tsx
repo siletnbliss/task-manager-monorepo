@@ -10,7 +10,7 @@ export default function LoginPage() {
   const { form, handleSubmit } = useLogin();
 
   return (
-    <Container size={420} my={80}>
+    <Container size={420}>
       <Title ta="center" fw={900}>
         Welcome back to TaskMan!
       </Title>

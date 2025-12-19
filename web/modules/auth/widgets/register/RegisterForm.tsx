@@ -1,19 +1,18 @@
-import Link from 'next/link';
-import { Anchor, Button, Checkbox, Group, PasswordInput, Stack, TextInput } from '@mantine/core';
+import { Button, Checkbox, PasswordInput, Stack, TextInput } from '@mantine/core';
 import { UseFormReturnType } from '@mantine/form';
 
-interface LoginFormProps {
+interface RegisterFormProps {
   form: UseFormReturnType<any>;
   onSubmit: (e?: React.FormEvent<HTMLFormElement>) => void;
 }
 
-export function LoginForm({ form, onSubmit }: LoginFormProps) {
+export function RegisterForm({ form, onSubmit }: RegisterFormProps) {
   return (
     <form onSubmit={onSubmit}>
       <Stack>
         <TextInput
           label="Username"
-          placeholder="your-username"
+          placeholder="TaskMaster99"
           required
           radius="md"
           {...form.getInputProps('username')}
@@ -21,22 +20,19 @@ export function LoginForm({ form, onSubmit }: LoginFormProps) {
 
         <PasswordInput
           label="Password"
-          placeholder="Your password"
+          placeholder="Create a password"
           required
           radius="md"
           {...form.getInputProps('password')}
         />
-      </Stack>
 
-      <Group justify="space-between" mt="lg">
         <Checkbox
-          label="Keep me logged in"
-          {...form.getInputProps('keepLoggedIn', { type: 'checkbox' })}
+          label="I accept terms and conditions"
+          mt="xs"
+          size="sm"
+          {...form.getInputProps('terms', { type: 'checkbox' })}
         />
-        <Anchor component={Link} href="/" size="sm" c="dimmed">
-          Forgot password?
-        </Anchor>
-      </Group>
+      </Stack>
 
       <Button
         fullWidth
@@ -47,7 +43,7 @@ export function LoginForm({ form, onSubmit }: LoginFormProps) {
         variant="gradient"
         gradient={{ from: 'indigo', to: 'cyan' }}
       >
-        Sign in to TaskMan
+        Create account
       </Button>
     </form>
   );
