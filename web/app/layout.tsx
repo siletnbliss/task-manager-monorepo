@@ -13,8 +13,9 @@ import { ThemeToggle } from '@/modules/common/components/theme-switch/ThemeToggl
 import { theme } from '../theme';
 
 export const metadata = {
-  title: 'Mantine Next.js template',
-  description: 'I am using Mantine with Next.js!',
+  title: 'TaskMan - Manage Your Tasks Efficiently',
+  description:
+    'A powerful task management application to organize and prioritize your work seamlessly.',
 };
 
 export default function RootLayout({ children }: { children: any }) {
