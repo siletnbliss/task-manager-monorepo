@@ -28,6 +28,7 @@ export function KanbanColumn({ title, tasks, isLoading }: KanbanColumnProps) {
         minHeight: '400px',
         backgroundColor: 'light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-5))',
       }}
+      miw={'20rem'}
     >
       <Group justify="space-between" mb="md">
         <Title order={4} fw={700}>

@@ -27,7 +27,6 @@ export function TasksProvider({ children }: { children: ReactNode }) {
   });
 
   const tasksByState = useMemo(() => {
-    console.log('Grouping tasks by state', tasks);
     const grouped: Record<TaskState, Task[]> = {
       pending: [],
       'in progress': [],
