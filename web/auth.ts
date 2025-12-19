@@ -9,6 +9,7 @@ type LoginApiResponse = BaseApiResponse<{
   access_token: string;
 }>;
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  trustHost: true,
   providers: [
     Credentials({
       name: 'Credentials',

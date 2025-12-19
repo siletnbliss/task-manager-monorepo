@@ -22,10 +22,10 @@ axiosInstance.interceptors.request.use(async (config) => {
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
-    if (typeof window !== 'undefined' && error.response?.status === 401) {
+    if (typeof window !== 'undefined' && [401, 403].includes(error.response?.status)) {
       console.warn('Unauthorized - signing out...');
 
-      await signOut({ callbackUrl: '/login' });
+      await signOut({ callbackUrl: '/' });
 
       return Promise.reject(error);
     }

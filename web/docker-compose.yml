@@ -1,0 +1,19 @@
+services:
+  app:
+    container_name: task-manager-web
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    # Load environment variables from .env file
+    env_file:
+      - path: .env.template
+        required: true
+      - path: .env
+        required: false
+    environment:
+      # Pass the PORT env var to the container so Next.js uses it
+      - PORT=${PORT}
+    ports:
+      # Map Host Port : Container Port
+      - '${PORT}:${PORT}'

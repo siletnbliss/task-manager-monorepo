@@ -6,7 +6,10 @@ services:
     ports:
       - "${PORT}:${PORT}"
     env_file:
-      - .env
+      - path: .env.template
+        required: true
+      - path: .env
+        required: false
     depends_on:
       - db
 
