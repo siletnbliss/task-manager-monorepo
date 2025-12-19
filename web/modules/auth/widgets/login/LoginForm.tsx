@@ -5,9 +5,10 @@ import { UseFormReturnType } from '@mantine/form';
 interface LoginFormProps {
   form: UseFormReturnType<any>;
   onSubmit: (e?: React.FormEvent<HTMLFormElement>) => void;
+  isSubmitting?: boolean;
 }
 
-export function LoginForm({ form, onSubmit }: LoginFormProps) {
+export function LoginForm({ form, onSubmit, isSubmitting }: LoginFormProps) {
   return (
     <form onSubmit={onSubmit}>
       <Stack>
@@ -46,6 +47,7 @@ export function LoginForm({ form, onSubmit }: LoginFormProps) {
         type="submit"
         variant="gradient"
         gradient={{ from: 'indigo', to: 'cyan' }}
+        loading={isSubmitting}
       >
         Sign in to TaskMan
       </Button>

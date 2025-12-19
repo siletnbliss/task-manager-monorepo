@@ -5,10 +5,12 @@ import { axiosInstance } from '../lib/axios';
 
 type HttpMethod = 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
-interface ApiMutationConfig {
-  method: HttpMethod;
-  url: string;
-}
+type ApiMutationConfig =
+  | {
+      method: HttpMethod;
+      url: string;
+    }
+  | { callback: () => Promise<any> };
 
 interface MutationVariables<TBody = any> {
   body?: TBody;
@@ -25,10 +27,12 @@ export function useApiMutation<TData = any, TBody = any, TError = any>(
     onError?: (error: AxiosError<TError>) => void;
   } & Omit<UseMutationOptions<TData, AxiosError<TError>, MutationVariables<TBody>>, 'mutationFn'>
 ): UseMutationResult<TData, AxiosError<TError>, MutationVariables<TBody>> {
-  const { method, url } = config;
-
   return useMutation({
     mutationFn: async ({ body, params, urlParams }: MutationVariables<TBody>) => {
+      if ('callback' in config) {
+        return await config.callback();
+      }
+      const { method, url } = config;
       let finalUrl = url;
       if (urlParams) {
         Object.entries(urlParams).forEach(([key, value]) => {

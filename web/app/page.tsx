@@ -7,7 +7,7 @@ import { LoginForm } from '@/modules/auth/widgets/login/LoginForm';
 import { useLogin } from '@/modules/auth/widgets/login/useLogin';
 
 export default function LoginPage() {
-  const { form, handleSubmit } = useLogin();
+  const { form, handleSubmit, isSubmitting } = useLogin();
 
   return (
     <Container size={420}>
@@ -31,7 +31,7 @@ export default function LoginPage() {
 
         <Divider label="Or continue with email" labelPosition="center" my="lg" />
 
-        <LoginForm form={form} onSubmit={handleSubmit} />
+        <LoginForm form={form} onSubmit={handleSubmit} isSubmitting={isSubmitting} />
       </Paper>
     </Container>
   );
