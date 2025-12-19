@@ -20,8 +20,14 @@ export const authMiddleware = (
     res.status(response.statusCode).json(response);
     return;
   }
-  const payload = validateToken(token, env.ACCESS_TOKEN_SECRET);
-  if (!payload) {
+  try {
+    const payload = validateToken(token, env.ACCESS_TOKEN_SECRET);
+    if (!payload) {
+      throw new Error("Invalid token");
+    }
+    req.user = payload as UserPayload;
+    next();
+  } catch (error) {
     const response = ServiceResponse.failure(
       "Invalid or expired token",
       null,
@@ -30,7 +36,4 @@ export const authMiddleware = (
     res.status(response.statusCode).json(response);
     return;
   }
-
-  req.user = payload as UserPayload;
-  next();
 };
