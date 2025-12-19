@@ -4,9 +4,10 @@ import { UseFormReturnType } from '@mantine/form';
 interface RegisterFormProps {
   form: UseFormReturnType<any>;
   onSubmit: (e?: React.FormEvent<HTMLFormElement>) => void;
+  isSubmitting?: boolean;
 }
 
-export function RegisterForm({ form, onSubmit }: RegisterFormProps) {
+export function RegisterForm({ form, onSubmit, isSubmitting }: RegisterFormProps) {
   return (
     <form onSubmit={onSubmit}>
       <Stack>
@@ -35,6 +36,8 @@ export function RegisterForm({ form, onSubmit }: RegisterFormProps) {
       </Stack>
 
       <Button
+        loading={isSubmitting}
+        disabled={form.values.terms === false}
         fullWidth
         mt="xl"
         size="md"

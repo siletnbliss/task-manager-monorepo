@@ -1,4 +1,7 @@
+import { useRouter } from 'next/navigation';
 import { useForm } from '@mantine/form';
+import { useApiMutation } from '@/modules/common/hooks/useApiMutation';
+import { RegisterDto } from '../../model/auth';
 
 export const useRegister = () => {
   const form = useForm({
@@ -13,14 +16,32 @@ export const useRegister = () => {
       terms: (val) => (val ? null : 'You must accept terms and conditions'),
     },
   });
+  const router = useRouter();
+  const { mutate, isPending } = useApiMutation<{}, RegisterDto>(
+    {
+      method: 'POST',
+      url: 'auth/register',
+    },
+    {
+      successMessage: 'Registration successful! You can now log in.',
+      onSuccess: () => {
+        router.push('/');
+      },
+    }
+  );
 
   const handleSubmit = (values: typeof form.values) => {
-    // TODO: api call
-    console.log('Registering:', values);
+    mutate({
+      body: {
+        username: values.username,
+        password: values.password,
+      },
+    });
   };
 
   return {
     form,
     handleSubmit: form.onSubmit(handleSubmit),
+    isSubmitting: isPending,
   };
 };
