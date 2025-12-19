@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@mantine/core": "8.3.10",
+    "@mantine/form": "^8.3.10",
     "@mantine/hooks": "8.3.10",
     "@next/bundle-analyzer": "^16.0.0",
     "@tabler/icons-react": "^3.35.0",
