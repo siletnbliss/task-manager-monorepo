@@ -6,6 +6,7 @@ import { Box, Button, Container, Group, Title } from '@mantine/core';
 import { TasksProvider } from '@/modules/tasks/context/TasksProvider';
 import { Task } from '@/modules/tasks/model/task';
 import { CreateTaskDrawer } from '@/modules/tasks/widgets/drawer/CreateTaskDrawer';
+import { DeleteTaskModal } from '@/modules/tasks/widgets/drawer/DeleteTaskModal';
 import { EditTaskDrawer } from '@/modules/tasks/widgets/drawer/EditTaskDrawer';
 import { useTaskDrawer } from '@/modules/tasks/widgets/drawer/useTaskDrawer';
 import { KanbanBoard } from '@/modules/tasks/widgets/kanban/KanbanBoard';
@@ -33,13 +34,25 @@ function PageInner() {
     opened: openedEdit,
     close: closeEdit,
     mutate: editTask,
-  } = useTaskDrawer(true);
+  } = useTaskDrawer('edit');
+
+  const {
+    open: openDelete,
+    opened: openedDelete,
+    close: closeDelete,
+    mutate: deleteTask,
+  } = useTaskDrawer('delete');
 
   const [editingTask, setEditingTask] = useState<Task | null>(null);
 
   const handleEditTaskClick = (task: Task) => {
     setEditingTask(task);
     openEdit();
+  };
+
+  const handleDeleteTaskClick = (task: Task) => {
+    setEditingTask(task);
+    openDelete();
   };
 
   return (
@@ -50,7 +63,7 @@ function PageInner() {
           New Task
         </Button>
       </Group>
-      <KanbanBoard onEdit={handleEditTaskClick} />
+      <KanbanBoard onEdit={handleEditTaskClick} onDelete={handleDeleteTaskClick} />
       <CreateTaskDrawer
         opened={openedCreate}
         close={closeCreate}
@@ -64,6 +77,14 @@ function PageInner() {
         task={editingTask}
         onTaskUpdate={(id, values) => {
           editTask({ body: values, urlParams: { id } });
+        }}
+      />
+      <DeleteTaskModal
+        opened={openedDelete}
+        close={closeDelete}
+        task={editingTask}
+        onTaskDelete={(id) => {
+          deleteTask({ urlParams: { id } });
         }}
       />
     </Container>

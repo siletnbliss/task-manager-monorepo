@@ -3,17 +3,44 @@ import { useApiMutation } from '@/modules/common/hooks/useApiMutation';
 import { useTasksContext } from '../../context/TasksProvider';
 import { TaskFormValues } from '../form/useTaskForm';
 
-export const useTaskDrawer = (isEdit?: boolean) => {
+type Action = 'create' | 'edit' | 'delete';
+
+const actionParams: Record<
+  Action,
+  { method: 'POST' | 'PUT' | 'DELETE'; url: string; success: string; error: string }
+> = {
+  create: {
+    method: 'POST',
+    url: '/tasks',
+    success: 'Task created successfully',
+    error: 'Failed to create task. Please try again.',
+  },
+  edit: {
+    method: 'PUT',
+    url: '/tasks/:id',
+    success: 'Task updated successfully',
+    error: 'Failed to update task. Please try again.',
+  },
+  delete: {
+    method: 'DELETE',
+    url: '/tasks/:id',
+    success: 'Task deleted successfully',
+    error: 'Failed to delete task. Please try again.',
+  },
+};
+
+export const useTaskDrawer = (action: Action = 'create') => {
   const [opened, { open, close }] = useDisclosure(false);
+  const { method, url, success, error } = actionParams[action];
   const { refetch } = useTasksContext();
   const { mutate, isPending } = useApiMutation<object, TaskFormValues>(
     {
-      method: isEdit ? 'PUT' : 'POST',
-      url: '/tasks' + (isEdit ? '/:id' : ''),
+      method,
+      url,
     },
     {
-      successMessage: isEdit ? 'Task updated successfully' : 'Task created successfully',
-      errorMessage: 'Failed to save task. Please try again.',
+      successMessage: success,
+      errorMessage: error,
       onSuccess: async () => {
         refetch();
         close();

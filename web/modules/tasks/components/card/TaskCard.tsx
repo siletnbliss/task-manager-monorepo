@@ -16,13 +16,14 @@ import { useTaskCard } from './useTaskCard';
 
 export interface MutableTaskProps {
   onEdit: (task: Task) => void;
+  onDelete: (task: Task) => void;
 }
 
 interface TaskCardProps extends MutableTaskProps {
   task: Task;
 }
 
-export function TaskCard({ task, onEdit }: TaskCardProps) {
+export function TaskCard({ task, onEdit, onDelete }: TaskCardProps) {
   const { getStateColor, getPriorityColor, formatDate } = useTaskCard();
   const stateColor = getStateColor(task.status);
 
@@ -56,6 +57,7 @@ export function TaskCard({ task, onEdit }: TaskCardProps) {
             <MenuItem
               leftSection={<IconTrash style={{ width: rem(14), height: rem(14) }} />}
               color="red"
+              onClick={() => onDelete(task)}
             >
               Delete
             </MenuItem>
