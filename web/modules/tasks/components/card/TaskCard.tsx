@@ -14,11 +14,15 @@ import {
 import { Task } from '../../model/task';
 import { useTaskCard } from './useTaskCard';
 
-interface TaskCardProps {
+export interface MutableTaskProps {
+  onEdit: (task: Task) => void;
+}
+
+interface TaskCardProps extends MutableTaskProps {
   task: Task;
 }
 
-export function TaskCard({ task }: TaskCardProps) {
+export function TaskCard({ task, onEdit }: TaskCardProps) {
   const { getStateColor, getPriorityColor, formatDate } = useTaskCard();
   const stateColor = getStateColor(task.status);
 
@@ -43,7 +47,10 @@ export function TaskCard({ task }: TaskCardProps) {
           </MenuTarget>
 
           <MenuDropdown>
-            <MenuItem leftSection={<IconPencil style={{ width: rem(14), height: rem(14) }} />}>
+            <MenuItem
+              leftSection={<IconPencil style={{ width: rem(14), height: rem(14) }} />}
+              onClick={() => onEdit(task)}
+            >
               Edit
             </MenuItem>
             <MenuItem

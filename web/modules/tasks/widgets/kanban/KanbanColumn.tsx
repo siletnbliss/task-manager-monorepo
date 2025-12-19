@@ -1,8 +1,8 @@
 import { Badge, Group, Paper, Skeleton, Stack, Title } from '@mantine/core';
-import { TaskCard } from '../../components/card/TaskCard';
+import { MutableTaskProps, TaskCard } from '../../components/card/TaskCard';
 import { Task } from '../../model/task';
 
-interface KanbanColumnProps {
+interface KanbanColumnProps extends MutableTaskProps {
   title: string;
   tasks: Task[];
   isLoading?: boolean;
@@ -18,7 +18,7 @@ function LoadingSkeletons() {
   );
 }
 
-export function KanbanColumn({ title, tasks, isLoading }: KanbanColumnProps) {
+export function KanbanColumn({ title, tasks, isLoading, ...mutableTaskProps }: KanbanColumnProps) {
   return (
     <Paper
       p="md"
@@ -43,7 +43,7 @@ export function KanbanColumn({ title, tasks, isLoading }: KanbanColumnProps) {
         {isLoading ? (
           <LoadingSkeletons />
         ) : (
-          tasks.map((task) => <TaskCard key={task.id} task={task} />)
+          tasks.map((task) => <TaskCard key={task.id} task={task} {...mutableTaskProps} />)
         )}
       </Stack>
     </Paper>
