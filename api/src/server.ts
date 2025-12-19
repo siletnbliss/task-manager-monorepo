@@ -11,6 +11,7 @@ import { env } from "@/common/utils/envConfig";
 import AppDataSource from "./common/persistence/appDataSource";
 import { authRouter } from "./api/auth/controller/authRouter";
 import { authMiddleware } from "./api/auth/controller/authMiddleware";
+import { taskRouter } from "./api/tasks/controller/taskRouter";
 
 const logger = pino({ name: "server start" });
 const initApp = async () => {
@@ -33,12 +34,13 @@ const initApp = async () => {
   app.use("/auth", authRouter);
 
   // Swagger UI
-  app.use(openAPIRouter);
+  app.use("/api-docs", openAPIRouter);
 
   // Auth middleware
   app.use(authMiddleware);
 
   // Protected Routes
+  app.use("/tasks", taskRouter);
 
   // Error handlers
   app.use(errorHandler());

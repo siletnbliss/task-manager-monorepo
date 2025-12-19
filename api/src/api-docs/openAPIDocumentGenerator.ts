@@ -1,4 +1,5 @@
 import { authRegistry } from "@/api/auth/controller/authRouter";
+import { taskRegistry } from "@/api/tasks/controller/taskRouter";
 import {
   OpenAPIRegistry,
   OpenApiGeneratorV3,
@@ -9,7 +10,13 @@ export type OpenAPIDocument = ReturnType<
 >;
 
 export function generateOpenAPIDocument(): OpenAPIDocument {
-  const registry = new OpenAPIRegistry([authRegistry]);
+  const registry = new OpenAPIRegistry([authRegistry, taskRegistry]);
+  registry.registerComponent("securitySchemes", "bearerAuth", {
+    type: "http",
+    scheme: "bearer",
+    bearerFormat: "JWT",
+  });
+
   const generator = new OpenApiGeneratorV3(registry.definitions);
 
   return generator.generateDocument({
