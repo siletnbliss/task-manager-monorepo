@@ -1,7 +1,15 @@
 import '@mantine/core/styles.css';
 
 import React from 'react';
-import { ColorSchemeScript, mantineHtmlProps, MantineProvider } from '@mantine/core';
+import {
+  Box,
+  ColorSchemeScript,
+  Container,
+  Group,
+  mantineHtmlProps,
+  MantineProvider,
+} from '@mantine/core';
+import { ThemeToggle } from '@/modules/common/components/theme-switch/ThemeToggle';
 import { theme } from '../theme';
 
 export const metadata = {
@@ -21,7 +29,35 @@ export default function RootLayout({ children }: { children: any }) {
         />
       </head>
       <body>
-        <MantineProvider theme={theme}>{children}</MantineProvider>
+        <MantineProvider theme={theme}>
+          <Container
+            size="xl"
+            px="md"
+            py={'lg'}
+            mx="auto"
+            h={'100vh'}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              overflow: 'auto',
+            }}
+          >
+            <Group justify="end" pb={'md'}>
+              <ThemeToggle />
+            </Group>
+            <Box
+              flex={1}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              {children}
+            </Box>
+          </Container>
+        </MantineProvider>
       </body>
     </html>
   );
