@@ -19,9 +19,7 @@ class AuthController {
         StatusCodes.UNAUTHORIZED
       );
     if (loginResponse) {
-      serviceResponse = ServiceResponse.success("Verified", {
-        access_token: loginResponse.access_token,
-      });
+      serviceResponse = ServiceResponse.success("Verified", loginResponse);
     }
 
     res.status(serviceResponse.statusCode).send(serviceResponse);

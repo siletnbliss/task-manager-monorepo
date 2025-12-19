@@ -17,6 +17,8 @@ class LoginService {
     }
 
     return {
+      id: user.id,
+      username: user.username,
       access_token: generateToken(
         user,
         env.ACCESS_TOKEN_SECRET,

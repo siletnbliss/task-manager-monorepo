@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { validateToken } from "../utils/tokens";
 import { env } from "@/common/utils/envConfig";
 import { UserPayload } from "@/common/types/express";
+import { ServiceResponse } from "@/common/models/serviceResponse";
 
 export const authMiddleware = (
   req: Request,
@@ -11,12 +12,22 @@ export const authMiddleware = (
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
   if (!token) {
-    res.status(401).json({ message: "Authentication required" });
+    const response = ServiceResponse.failure(
+      "Authentication required",
+      null,
+      401
+    );
+    res.status(response.statusCode).json(response);
     return;
   }
   const payload = validateToken(token, env.ACCESS_TOKEN_SECRET);
   if (!payload) {
-    res.status(403).json({ message: "Invalid or expired token" });
+    const response = ServiceResponse.failure(
+      "Invalid or expired token",
+      null,
+      403
+    );
+    res.status(response.statusCode).json(response);
     return;
   }
 
