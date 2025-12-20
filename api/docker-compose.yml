@@ -1,20 +1,15 @@
-version: "3.8"
-
 services:
-  api:
+  taskman-api:
     build: .
     ports:
       - "${PORT}:${PORT}"
     env_file:
-      - path: .env.template
-        required: true
-      - path: .env
-        required: false
+      - .env
     restart: unless-stopped
     depends_on:
-      db:
+      taskman-db:
         condition: service_healthy
-  db:
+  taskman-db:
     image: postgres:15-alpine
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]

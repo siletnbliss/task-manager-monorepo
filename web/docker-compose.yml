@@ -7,13 +7,12 @@ services:
     restart: always
     # Load environment variables from .env file
     env_file:
-      - path: .env.template
-        required: true
-      - path: .env
-        required: false
+      - .env
     environment:
-      # Pass the PORT env var to the container so Next.js uses it
-      - PORT=${PORT}
+      # Pass the port env var to the container so Next.js uses it
+      - APP_PORT=${APP_PORT}
     ports:
       # Map Host Port : Container Port
-      - '${PORT}:${PORT}'
+      - '${APP_PORT}:${APP_PORT}'
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'

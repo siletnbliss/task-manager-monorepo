@@ -27,7 +27,7 @@ export default async function RootLayout({ children }: { children: any }) {
         />
       </head>
       <body>
-        <Providers>
+        <Providers session={session}>
           <Container
             size="xl"
             px="md"
@@ -42,7 +42,7 @@ export default async function RootLayout({ children }: { children: any }) {
           >
             <Group justify="end" pb={'md'}>
               <ThemeToggle />
-              {!!session?.user && <SignOutButton />}
+              <SignOutButton />
             </Group>
             <Box
               flex={1}

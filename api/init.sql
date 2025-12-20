@@ -7,8 +7,8 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 -- Seed some initial data
-INSERT INTO users (id, username, password) VALUES 
-(1, 'admin', '$2a$12$EjdABa3yrvb1YN4E.cMgOuKyLiDzPSF54vk.sc/AxQYwkVJZ3WcPO');
+INSERT INTO users (username, password) VALUES 
+('admin', '$2a$12$EjdABa3yrvb1YN4E.cMgOuKyLiDzPSF54vk.sc/AxQYwkVJZ3WcPO');
 
 CREATE TABLE tasks (
     id SERIAL PRIMARY KEY,

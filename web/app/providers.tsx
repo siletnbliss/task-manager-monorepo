@@ -9,15 +9,25 @@ import { Notifications } from '@mantine/notifications';
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
 
+import { Session } from 'next-auth';
+import { SessionProvider } from 'next-auth/react';
 import { theme } from '@/theme';
 
-export function Providers({ children }: { children: React.ReactNode }) {
+export function Providers({
+  children,
+  session,
+}: {
+  children: React.ReactNode;
+  session: Session | null;
+}) {
   const [queryClient] = useState(() => new QueryClient());
 
   return (
-    <MantineProvider theme={theme}>
-      <Notifications position="top-right" autoClose={5000} />
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    </MantineProvider>
+    <SessionProvider session={session}>
+      <MantineProvider theme={theme}>
+        <Notifications position="top-right" autoClose={5000} />
+        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      </MantineProvider>
+    </SessionProvider>
   );
 }

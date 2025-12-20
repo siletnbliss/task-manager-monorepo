@@ -25,7 +25,7 @@ A full-stack Task Manager application built with **Next.js 16**, **Express**, an
 - **Framework:** Express.js
 - **Database:** PostgreSQL 15
 - **Documentation:** Swagger UI
-- **ORM/Query:** (Assumed based on setup: pg, prisma, or sequelize)
+- **ORM/Query:** TypeORM
 
 ---
 
@@ -45,7 +45,7 @@ This project consists of two distinct applications (Web and API). You need to co
 
 ### 1. Backend Configuration
 
-Create a `.env` file in the `api/` directory:
+Create a `.env` file in the `api/` directory (you can simply copy from `.env.template`):
 
 ```bash
 cp api/.env.template api/.env
@@ -53,7 +53,7 @@ cp api/.env.template api/.env
 
 ### 2. Frontend Configuration
 
-Create a `.env` file in the `web/` directory:
+Create a `.env` file in the `web/` directory (you can simply copy from `.env.template`):
 
 ```bash
 cp api/.env.template api/.env
@@ -66,6 +66,8 @@ npm run docker
 ```
 
 ## View application
+
+You can use the default user, with credentials `admin` and `password`. Or use the register functionality.
 
 ### 1. View frontend
 

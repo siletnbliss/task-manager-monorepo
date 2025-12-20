@@ -52,11 +52,11 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 USER nextjs
 
 # Default port argument (will be overridden by ENV in docker-compose)
-ARG PORT=3000
-ENV PORT=${PORT}
+ARG APP_PORT=3000
+ENV APP_PORT=${APP_PORT}
 
 # Expose the port
-EXPOSE ${PORT}
+EXPOSE ${APP_PORT}
 
 # Start the application using server.js (created by output: standalone)
 CMD ["node", "server.js"]
